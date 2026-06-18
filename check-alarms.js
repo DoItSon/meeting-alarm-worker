@@ -32,8 +32,8 @@ async function checkAndSendAlarms() {
     (m.alarms || [5, 10, 30]).forEach(min => {
       const alarmTime = meetTime - min * 60000;
       const key = `${m.id}_${min}`;
-      // 알람 시간 기준 ±90초 이내이고 아직 안 보낸 경우
-      if (Math.abs(now - alarmTime) <= 90000 && !firedKeys.has(key)) {
+      // 알람 시간이 지났고(최대 6분 이내) 아직 안 보낸 경우 — 5분 간격 cron에 맞춤
+      if (now >= alarmTime && now - alarmTime <= 6 * 60000 && !firedKeys.has(key)) {
         toFire.push({ meeting: m, minutesBefore: min, key });
       }
     });
