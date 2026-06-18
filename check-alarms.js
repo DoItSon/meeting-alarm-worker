@@ -26,7 +26,7 @@ async function checkAndSendAlarms() {
   const toFire = [];
   meetings.forEach(m => {
     if (!m.time || !m.date) return;
-    const meetTime = new Date(`${m.date}T${m.time}`).getTime();
+    const meetTime = new Date(`${m.date}T${m.time}:00+09:00`).getTime();
     if (meetTime < now) return;
 
     (m.alarms || [5, 10, 30]).forEach(min => {
