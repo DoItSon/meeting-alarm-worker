@@ -46,7 +46,7 @@ async function checkAndSendAlarms() {
     try {
       const res = await messaging.sendEachForMulticast({
         tokens,
-        notification: { title: '🔔 회의 알람', body },
+        notification: { title: '[회의알람] 🔔 회의 시작 알림', body },
         data: { tag: key }
       });
       console.log(`✅ ${meeting.title} — 성공:${res.successCount} 실패:${res.failureCount}`);
