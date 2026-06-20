@@ -12,8 +12,11 @@ async function checkAndSendAlarms() {
 
   // 등록된 FCM 토큰 가져오기
   const tokensSnap = await db.collection('fcm_tokens').get();
-  const tokens = tokensSnap.docs.map(d => d.data().token).filter(Boolean);
-  if (tokens.length === 0) { console.log('등록된 토큰 없음'); return; }
+  const tokens = tokensSnap.docs
+    .map(d => d.data())
+    .filter(d => d.token && d.enabled !== false)
+    .map(d => d.token);
+  if (tokens.length === 0) { console.log('알람 켜진 등록된 토큰 없음'); return; }
 
   // 전체 회의 가져오기
   const meetingsSnap = await db.collection('meetings').get();
