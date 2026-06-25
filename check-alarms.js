@@ -52,8 +52,9 @@ async function checkAndSendAlarms() {
         notification: { title: '[회의알람] 🔔 회의 시작 알림', body },
         data: { tag: key },
         // 기기가 오프라인이어도 무한정 대기시키지 않고, 15분 안에 전달 안 되면 폐기
-        android: { ttl: 900000 },
-        webpush: { headers: { TTL: '900' } }
+        // 높은 우선순위로 보내야 기기 절전모드(Doze 등) 중에도 즉시 전달됨
+        android: { ttl: 900000, priority: 'high' },
+        webpush: { headers: { TTL: '900', Urgency: 'high' } }
       });
       console.log(`✅ ${meeting.title} — 성공:${res.successCount} 실패:${res.failureCount}`);
 
